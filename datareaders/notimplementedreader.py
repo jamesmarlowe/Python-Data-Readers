@@ -1,6 +1,6 @@
 class FailedReader:
     def __init__(self, *args, **kwargs):
-        self.reader_name = kwargs['writer']
+        self.reader_name = kwargs['reader']
         print self.reader_name + " failed, did you install its requirements?"
 
     def read(self, list_of_dicts):

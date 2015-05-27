@@ -4,39 +4,39 @@ from notimplementedreader import FailedReader
 
 try:
     from mysqlreader import MysqlReader
-    readers['mysql'] = MysqlReader if (MysqlReader is not None) else FailedReader
+    readers['mysql'] = MysqlReader
 except ImportError:
-    pass
+    readers['mysql'] = FailedReader
 try:
     from sqlitereader import SqliteReader
     readers['sqlite'] = SqliteReader
 except ImportError:
-    pass
+    readers['sqlite'] = FailedReader
 try:
     from csvreader import CsvReader
     readers['csv'] = CsvReader
 except ImportError:
-    pass
+    readers['csv'] = FailedReader
 try:
     from redisreader import RedisReader
-    readers['redis'] = RedisReader if (RedisReader is not None) else FailedReader
+    readers['redis'] = RedisReader
 except ImportError:
-    pass
+    readers['redis'] = FailedReader
 try:
     from mongoreader import MongoReader
-    readers['mongo'] = MongoReader if (MongoReader is not None) else FailedReader
+    readers['mongo'] = MongoReader
 except ImportError:
-    pass
+    readers['mongo'] = FailedReader
 try:
     from postgresreader import PostgresReader
-    readers['postgres'] = PostgresReader if (PostgresReader is not None) else FailedReader
+    readers['postgres'] = PostgresReader
 except ImportError:
-    pass
+    readers['postgres'] = FailedReader
 try:
     from aerospikereader import AerospikeReader
-    readers['aerospike'] = AerospikeReader if (AerospikeReader is not None) else FailedReader
+    readers['aerospike'] = AerospikeReader
 except ImportError:
-    pass
+    readers['aerospike'] = FailedReader
 try:
     from datawriters.datawriter import DataWriter
 except ImportError:

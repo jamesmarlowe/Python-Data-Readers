@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2 import extras
 
 class PostgresReader:
     def __init__(self, *args, **kwargs):
@@ -32,9 +33,7 @@ class PostgresReader:
         db = psycopg2.connect("dbname='"+self.db_postgres+"' user='"+self.user_postgres+"' host='"+self.host+"' password='"+self.pass_postgres+"'")
         cursor = db.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         
-        SELECT_SQL = (
-            "SELECT * FROM "+self.db_table
-        )
+        SELECT_SQL = ("SELECT * FROM "+self.db_table)
         
         cursor.execute(SELECT_SQL)
         rows = cursor.fetchall()

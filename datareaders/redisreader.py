@@ -19,15 +19,13 @@ class RedisReader:
             self.database = '0'
 
     def read(self, *args, **kwargs):
-        pipe = redis.StrictRedis(host=self.host, port=self.port, db=self.database).pipeline()
-        all_keys = pipe.keys('*')
+        pipe = redis.StrictRedis(host=self.host, port=self.port, db=self.database)
+        all_keys = pipe.keys(kwargs['key_filter'] if 'key_filter' in kwargs else '*')
         list_of_dicts = []
         for key in all_keys:
-            type = redis.type(key)
-            if type == KV:
+            type = pipe.type(key)
+            if type == 'string':
                 list_of_dicts.append({key:pipe.get(key)})
-            if type == HASH:
+            if type == 'hash':
                 list_of_dicts.append(pipe.hgetall(key))
-            if type == ZSET:
-                list_of_dicts.append(pipe.zrange(key, 0, -1))
         return list_of_dicts
