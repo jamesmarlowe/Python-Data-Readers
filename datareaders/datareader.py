@@ -37,6 +37,10 @@ try:
     readers['aerospike'] = AerospikeReader if (AerospikeReader is not None) else FailedReader
 except ImportError:
     pass
+try:
+    from datawriters.datawriter import DataWriter
+except ImportError:
+    pass
 
 class DataReader:
 
@@ -45,28 +49,35 @@ class DataReader:
     def __init__(self, *args, **kwargs):
         self.reader_name = kwargs['reader']
         self.reader = self.readers[kwargs['reader']](*args, **kwargs)
+        try:
+            self.writer = DataWriter(writer=self.reader_name, *args, **kwargs)
+        except:
+            pass
         
     def reinit(self, *args, **kwargs):
         self.__init__(*args, **kwargs)
         
     def read(self, *args, **kwargs):
         self.reader.read(*args, **kwargs)
-        print 'data read from '+self.reader_name
+        print 'Data read from '+self.reader_name
         
-    def test(self):
+    def save(self, list_of_dicts, *args, **kwargs):
         try:
-            from datawriters.datawriter import DataWriter
+            self.writer.save(list_of_dicts, *args, **kwargs)
+            print 'Data writen to '+self.write_name
+        except:
+            print "Can't save without DataWriter"
+        
+    def test(self, *args, **kwargs):
+        try:
             data = [{"column1":"row1-item1", "column2":"row1-item2"},
                     {"column1":"row2-item1", "column2":"row2-item2"},
                     {"column1":"row3-item1", "column2":"row3-item2"}]
-            DataWriter(writer='csv', database='data.csv').save(data)
-            self.reader.read()
+            self.writer.save(data)
+            return self.reader.read()
         except:
-            
+            print "Can't test without DataWriter"
 
 if __name__ == "__main__":
-    list_of_dicts = DataReader(reader='csv', database='data.csv').test()
-    print list_of_dicts
-    #for reader in DataWriter.readers.keys():
-    #    DataWriter(reader=reader).test()
+    print DataReader(reader='sqlite').test()
 

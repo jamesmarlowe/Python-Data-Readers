@@ -11,6 +11,5 @@ class CsvReader:
     def read(self, *args, **kwargs):
         file = open(self.db_csv, 'rb')
         reader = csv.DictReader(file, delimiter=',')
-        return reader
-
+        return [row for row in reader]
 

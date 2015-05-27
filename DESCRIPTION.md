@@ -22,4 +22,3 @@ list_of_dicts = DataReader(reader='csv', database='data.csv').read()
 ```
 
 source code available at: https://github.com/jamesmarlowe/Python-Data-Readers
-
