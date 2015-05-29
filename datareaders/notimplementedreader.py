@@ -3,5 +3,5 @@ class FailedReader:
         self.reader_name = kwargs['reader']
         print self.reader_name + " failed, did you install its requirements?"
 
-    def read(self, list_of_dicts):
+    def read(self, *args, **kwargs):
         print 'Could not read using ' + self.reader_name + ", import failed"
