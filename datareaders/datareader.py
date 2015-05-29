@@ -58,8 +58,8 @@ class DataReader:
         self.__init__(*args, **kwargs)
         
     def read(self, *args, **kwargs):
-        self.reader.read(*args, **kwargs)
         print 'Data read from '+self.reader_name
+        return self.reader.read(*args, **kwargs)
         
     def save(self, list_of_dicts, *args, **kwargs):
         try:
