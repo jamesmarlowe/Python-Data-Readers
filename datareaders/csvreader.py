@@ -10,6 +10,9 @@ class CsvReader:
 
     def read(self, *args, **kwargs):
         file = open(self.db_csv, 'rb')
-        reader = csv.DictReader(file, delimiter=',')
+        if 'skip_lines' in kwargs:
+            for _ in xrange(kwargs['skip_lines']):
+                next(file)
+        reader = csv.DictReader(file, delimiter=',' if not 'delimiter' in kwargs else str(kwargs['delimiter']))
         return [row for row in reader]
 
